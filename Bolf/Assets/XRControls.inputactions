@@ -1,0 +1,34 @@
+{
+    "name": "XRControls",
+    "maps": [
+        {
+            "name": "Default",
+            "id": "e3ab69b6-a5d5-4bcd-b14d-242df407db32",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "1705b630-c67b-4185-bc7a-54cfd16d08ec",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "16529ed7-d8f8-44a2-8863-7320c5a92a07",
+                    "path": "<OculusTouchController>/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
