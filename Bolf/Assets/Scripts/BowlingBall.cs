@@ -6,22 +6,37 @@ public class BowlingBall : MonoBehaviour
 {
     public float speed = 10;
     public PointingArrow arrow;
+
+    GameMaster GM;
+    Rigidbody RB;
+
     // Start is called before the first frame update
     void Start()
     {
-
-    }
+        GM = FindObjectOfType<GameMaster>();
+        arrow = GM.Arrow;
+        RB = GetComponent<Rigidbody>();
+    }   
 
     public void ShootBall()
     {
-        
         Vector3 direction = -arrow.gameObject.transform.right;
+        //Vector3 direction = gameObject.transform.forward;
         Vector3 velocity = speed * direction;
+        RB.velocity = velocity;
 
-        //Vector3 newDirection = new Vector3(0, 0, 70);
+        GM.Chances--;
 
-        GetComponent<Rigidbody>().velocity = velocity;
-        //GetComponent<Rigidbody>().velocity = transform.TransformDirection( newDirection);
+        GM.Pins.CheckFallenPins();
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //if(other.tag == "Pin")
+        //{
+        //    Debug.Log("The object " + other.name + " and Z: " + other.transform.localEulerAngles.z);
+        //}
     }
 
     // Update is called once per frame
