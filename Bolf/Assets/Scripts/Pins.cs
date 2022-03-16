@@ -29,7 +29,8 @@ public class Pins : MonoBehaviour
             }
         }
         GM.ScoreText.text = "Shot down pins:" + FallenPins;
-        GM.TryAnotherBall();
+        GM.canShoot = true;
+        GM.SpawnAnotherBall();
     }
 
     // Start is called before the first frame update

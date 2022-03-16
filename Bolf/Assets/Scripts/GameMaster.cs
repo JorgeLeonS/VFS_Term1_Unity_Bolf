@@ -15,6 +15,8 @@ public class GameMaster : MonoBehaviour
     public Text ScoreText;
     public Text BallsText;
 
+    public bool canShoot = true;
+
     private int chances;
     public int Chances
     {
@@ -37,7 +39,7 @@ public class GameMaster : MonoBehaviour
     {
         Chances = 2;
         InitalizeOculusInput();
-        TryAnotherBall();
+        SpawnAnotherBall();
         //GameObject[] pins = Pins.GetComponentInChildren<Pin>().gameObject;
     }
 
@@ -46,7 +48,7 @@ public class GameMaster : MonoBehaviour
         BallsText.text = "Remaining balls: " + chances;
     }
 
-    public void TryAnotherBall()
+    public void SpawnAnotherBall()
     {
         try
         {
@@ -74,9 +76,22 @@ public class GameMaster : MonoBehaviour
         xrControls.Default.Newaction.performed += Newaction_performed;
     }
 
+    public void TryShoot()
+    {
+        if(canShoot && chances > 0)
+        {
+            newBall.ShootBall();
+            canShoot = false;
+        }
+        else
+        {
+            Debug.Log("Cannot shoot yet");
+        }
+    }
+
     private void Newaction_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        newBall.ShootBall();
+        TryShoot();
         Debug.Log("Pressed something");
         //throw new System.NotImplementedException();
     }
@@ -86,12 +101,7 @@ public class GameMaster : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Space");
-            newBall.ShootBall();
+            TryShoot();
         }
-        //if (Input.GetButtonDown("Axis1D.PrimaryHandTrigger"))
-        //{
-        //    ball.ShootBall();
-        //}
     }
 }
