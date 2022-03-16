@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.XR;
 
@@ -10,10 +11,15 @@ public class GameMaster : MonoBehaviour
     public PointingArrow Arrow;
     public Pins Pins;
 
+    public GameObject LaunchButton;
+
     BowlingBall newBall;
 
     public Text ScoreText;
     public Text BallsText;
+    public Text AlertText;
+
+    public Button ReplayButton;
 
     public bool canShoot = true;
 
@@ -40,7 +46,6 @@ public class GameMaster : MonoBehaviour
         Chances = 2;
         InitalizeOculusInput();
         SpawnAnotherBall();
-        //GameObject[] pins = Pins.GetComponentInChildren<Pin>().gameObject;
     }
 
     void ChangeChancesText()
@@ -56,7 +61,7 @@ public class GameMaster : MonoBehaviour
         }
         catch (System.Exception)
         {
-            Debug.Log("No object was found to destoy");
+            Debug.Log("No ball was found to destoy");
         }
 
         if(chances > 0)
@@ -65,8 +70,14 @@ public class GameMaster : MonoBehaviour
         }
         else
         {
-            Debug.Log("GameOver");
+            GameOver();
         }
+    }
+
+    public void GameOver()
+    {
+        AlertText.text = "Game Over";
+        ReplayButton.gameObject.SetActive(true);
     }
 
     void InitalizeOculusInput()
@@ -74,6 +85,14 @@ public class GameMaster : MonoBehaviour
         xrControls = new XRControls();
         xrControls.Enable();
         xrControls.Default.Newaction.performed += Newaction_performed;
+    }
+
+    public void CheckLaunchWithVRButton()
+    {
+        if (LaunchButton.transform.localPosition.y < 0.027)
+        {
+            TryShoot();
+        }
     }
 
     public void TryShoot()
@@ -87,6 +106,11 @@ public class GameMaster : MonoBehaviour
         {
             Debug.Log("Cannot shoot yet");
         }
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void Newaction_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -103,5 +127,7 @@ public class GameMaster : MonoBehaviour
         {
             TryShoot();
         }
+
+        CheckLaunchWithVRButton();
     }
 }

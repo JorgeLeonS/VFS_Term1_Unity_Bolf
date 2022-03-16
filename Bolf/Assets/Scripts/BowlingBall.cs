@@ -30,15 +30,6 @@ public class BowlingBall : MonoBehaviour
         GM.Pins.CheckFallenPins();
     }
 
-
-    private void OnTriggerEnter(Collider other)
-    {
-        //if(other.tag == "Pin")
-        //{
-        //    Debug.Log("The object " + other.name + " and Z: " + other.transform.localEulerAngles.z);
-        //}
-    }
-
     // Update is called once per frame
     void Update()
     {
