@@ -20,6 +20,16 @@ public class GameMaster : MonoBehaviour
     public Text AlertText;
 
     public Button ReplayButton;
+    public Button NextLevelButton;
+    public Button MainMenuButton;
+
+    [SerializeField]
+    GameObject DirectXRRig;
+
+    [SerializeField]
+    GameObject RayXRRig;
+
+    bool ActiveXRRig = true;
 
     public bool canShoot = true;
 
@@ -78,6 +88,17 @@ public class GameMaster : MonoBehaviour
     {
         AlertText.text = "Game Over";
         ReplayButton.gameObject.SetActive(true);
+        MainMenuButton.gameObject.SetActive(true);
+        try
+        {
+            NextLevelButton.gameObject.SetActive(true);
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("There is not a next level");
+        }
+        
+        ChangeRigs();
     }
 
     void InitalizeOculusInput()
@@ -108,16 +129,26 @@ public class GameMaster : MonoBehaviour
         }
     }
 
-    public void RestartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
     private void Newaction_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         TryShoot();
-        Debug.Log("Pressed something");
         //throw new System.NotImplementedException();
+    }
+
+    void ChangeRigs()
+    {
+        if (ActiveXRRig)
+        {
+            DirectXRRig.SetActive(false);
+            RayXRRig.SetActive(true);
+            ActiveXRRig = false;
+        }
+        else
+        {
+            DirectXRRig.SetActive(true);
+            RayXRRig.SetActive(false);
+            ActiveXRRig = true;
+        }
     }
 
     // Update is called once per frame
@@ -126,6 +157,11 @@ public class GameMaster : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             TryShoot();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            ChangeRigs();
         }
 
         CheckLaunchWithVRButton();

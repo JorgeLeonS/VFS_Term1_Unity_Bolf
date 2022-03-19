@@ -44,7 +44,7 @@ public class Pins : MonoBehaviour
             GM.AlertText.text = "Strike!";
             GM.ScoreText.text = "Shot down pins:" + FallenPins;
         }
-        else
+        else 
         {
             GM.AlertText.text = "";
             GM.ScoreText.text = "Shot down pins:" + FallenPins;
