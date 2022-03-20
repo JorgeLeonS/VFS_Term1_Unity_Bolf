@@ -10,16 +10,15 @@ public class MenuControl : MonoBehaviour
     [SerializeField]
     Button Level2Button;
 
-    private bool isLevel2Playable;
+    private static bool isLevel2Playable;
     public bool IsLevel2Playable {
         get 
         {
-            return IsLevel2Playable;
+            return isLevel2Playable;
         }
         set 
         {
             isLevel2Playable = value;
-            Level2Button.interactable = value;
         }
     }
     public void LoadLevel(string Level)
@@ -32,8 +31,21 @@ public class MenuControl : MonoBehaviour
     }
     // Start is called before the first frame update
     void Start()
-    {
-            
+    {   
+        //IsLevel2Playable = true;
+        Debug.Log("static Level 2 is playable:     " + isLevel2Playable);
+        Debug.Log("Level 2 is playable:     " + IsLevel2Playable);
+        try
+        {
+            if (isLevel2Playable || IsLevel2Playable)
+            {
+                Level2Button.interactable = true;
+            }
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("Level 2 button does not exist in this scene.");
+        }
     }
 
     // Update is called once per frame
@@ -43,5 +55,10 @@ public class MenuControl : MonoBehaviour
         {
             RestartGame();
         }
+    }
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
     }
 }

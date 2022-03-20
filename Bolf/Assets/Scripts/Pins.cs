@@ -7,6 +7,7 @@ public class Pins : MonoBehaviour
     int FallenPins = 0;
     int FallenPinsInTurn = 0;
     GameMaster GM;
+    MenuControl MC;
 
     public void CheckFallenPins()
     {
@@ -25,10 +26,6 @@ public class Pins : MonoBehaviour
                 FallenPins++;
                 FallenPinsInTurn++;
             }
-            else
-            {
-                //Debug.Log("Pin " + i + " did not fall");
-            }
         }
 
         if(FallenPinsInTurn == 0 && GM.Chances > 0)
@@ -41,11 +38,27 @@ public class Pins : MonoBehaviour
         else if(FallenPinsInTurn == 10)
         {
             GM.GameOver();
+            MC.IsLevel2Playable = true;
             GM.AlertText.text = "Strike!";
             GM.ScoreText.text = "Shot down pins:" + FallenPins;
         }
         else 
         {
+            if(FallenPins > 9)
+            {
+                MC.IsLevel2Playable = true;
+            }
+            else
+            {
+                try
+                {
+                    GM.NextLevelButton.interactable = false;
+                }
+                catch (System.Exception)
+                {
+                    Debug.Log("There is not a next level");
+                }
+            }
             GM.AlertText.text = "";
             GM.ScoreText.text = "Shot down pins:" + FallenPins;
             GM.canShoot = true;
@@ -58,7 +71,8 @@ public class Pins : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GM = GameObject.Find("GameMaster").GetComponent<GameMaster>();
+        GM = FindObjectOfType<GameMaster>(); ;
+        MC = FindObjectOfType<MenuControl>(); ;
     }
 
     // Update is called once per frame
